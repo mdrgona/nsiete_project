@@ -11,12 +11,21 @@ class JokeRecommender(keras.Model):
         joke_input = Input(shape=(1,), dtype='int32')
                 
         # Embedding layers
-        user_embedding = Embedding(input_dim=len(user_input), output_dim=int(units1 / 2), input_length=1)
-        joke_embedding = Embedding(input_dim=len(joke_input), output_dim=int(units1 / 2), input_length=1)
+        user_embedding = Embedding(
+            input_dim=len(user_input), 
+            output_dim=int(units1 / 2),
+            input_length=1
+        )
+        
+        joke_embedding = Embedding(
+            input_dim=len(joke_input),
+            output_dim=int(units1 / 2),
+            input_length=1
+        )
         
         # Concatenate user and joke embeddings
-        user_flatten = Flatten()(emb_user(user_input))
-        joke_flatten = Flatten()(emb_item(joke_input))
+        user_flatten = Flatten()(user_embedding(user_input))
+        joke_flatten = Flatten()(joke_embedding(joke_input))
         final_vector = concatenate([user_flatten, joke_flatten])
         
         print(final_vector)

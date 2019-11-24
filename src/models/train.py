@@ -1,15 +1,14 @@
-import sys
-from src.data.load_data import *
-from src.models.model import *
+# import sys
+# from src.data.load_data import *
+# from src.models.model import *
 
-sys.path.insert(0, "../")
+# sys.path.insert(0, "../")
 
-# load data into correct format
+# # load data into correct format
 
-df = load_dataset(filename='../data/Jester-Dataset-ratings.csv')
-user_ids, joke_ids, ratings = get_data(df=df, batch_size=10000)
+# df = load_dataset(filename='../data/Jester-Dataset-ratings.csv')
+# user_ids, joke_ids, ratings = get_data(df=df, batch_size=10000)
 
-# build a model
+# # build a model
 
-
-
+# model = JokeRecommender(user_input=user_ids, joke_input=joke_ids, units1=100, units2=20)
