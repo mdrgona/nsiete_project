@@ -6,36 +6,20 @@ import numpy as np
 
 class JokeRecommender(keras.Model):
     
-    def __init__(self, input_vector, units1 = 32, units2 = 16, units3 = 8):
+    def __init__(self, input_vector, units1 = 32, units2 = 16, units3 = 16):
         super(JokeRecommender, self).__init__()
-        
-        # # Input layers
-        # user_input = Input(shape=(1,), dtype='int32')
-        # joke_input = Input(shape=(1,), dtype='int32')
                 
-        # Embedding layers
+        # Embedding layer
         self.embedding = Embedding(
             input_dim=len(input_vector), 
             output_dim=int(units1 / 2),
             input_length=len(input_vector[0])
         )
+        
+        # flatten embedding
         self.flatten = Flatten()
 
-        # self.user_embedding = Embedding(
-        #     input_dim=len(user_ids), 
-        #     output_dim=int(units1 / 2),
-        #     input_length=1
-        # )
-        
-        # self.joke_embedding = Embedding(
-        #     input_dim=len(joke_ids),
-        #     output_dim=int(units1 / 2),
-        #     input_length=1
-        # )
-        
-        # # Concatenate user and joke embeddings
-        # self.user_flatten = Flatten()
-        # self.joke_flatten = Flatten()
+        # hidden layers
         
         self.layer_1 = Dense(units=units1, activation='relu')
         self.layer_2 = Dense(units=units2, activation='relu')
@@ -43,13 +27,11 @@ class JokeRecommender(keras.Model):
 
         self.dropout = Dropout(0.5)
         
+        # output layer
         self.my_output = Dense(units=10, activation='tanh')
         
 
     def call(self, x):
-        # user = self.user_embedding(x[0])
-        # joke = self.joke_embedding(x[1])
-        # x = concatenate([user, joke])
         x = self.embedding(x)
         x = self.flatten(x)
         x = self.layer_1(x)

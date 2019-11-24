@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.utils import to_categorical
 
 def get_data(df, batch_size=False):
     
@@ -17,6 +18,9 @@ def get_data(df, batch_size=False):
 
 def load_dataset(filename):
     return pd.read_csv(filename, delimiter=',')
+
+def encode(arr):
+    return to_categorical(arr)
 
 
 def split_dataset(df, test_size=0.2):
