@@ -6,7 +6,6 @@ from tensorflow.keras.backend import transpose
 import numpy as np
 
 class JokeRecommender(keras.Model):
-    
     def __init__(self, n_users, n_jokes, units1 = 100, units2 = 100, units3 = 8, dropout_rate=0.2):
         super(JokeRecommender, self).__init__()
                 
@@ -37,6 +36,7 @@ class JokeRecommender(keras.Model):
         # self.user_transpose = Reshape((-1, -1))
         # self.joke_transpose = Reshape((-1, -1))
         self.merge_dot = Dot(axes=-1)
+
         
         self.layer_1 = Dense(units=units1, activation='relu')
         self.layer_2 = Dense(units=units2, activation='relu')
@@ -57,6 +57,7 @@ class JokeRecommender(keras.Model):
         # print(user, transpose(user))
         # x = dot([user, joke], axes=-1)
         x = self.merge_dot([user, joke])
+
 
         x = self.layer_1(x)
         x = self.layer_2(x)
