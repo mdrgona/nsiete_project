@@ -6,7 +6,7 @@ import numpy as np
 import os
 from tensorflow import keras
 from src.data.load_data import *
-from src.models.model import JokeRecommender
+from src.models.model_MLP import JokeRecommender
 
 # load data
 

@@ -43,7 +43,7 @@ class JokeRecommender(keras.Model):
 
         self.dropout = Dropout(0.5)
         
-        self.my_output = Dense(units=1, activation='sigmoid')
+        self.my_output = Dense(units=10, activation='tanh')
         
 
     def call(self, x):
