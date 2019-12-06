@@ -6,55 +6,39 @@ import numpy as np
 
 class JokeRecommender(keras.Model):
     
-    def __init__(self, input_vector, units1 = 32, units2 = 16, units3 = 8):
+    def __init__(self, emb_output_dim, number_users, number_jokes):
         super(JokeRecommender, self).__init__()
         
-        # # Input layers
-        # user_input = Input(shape=(1,), dtype='int32')
-        # joke_input = Input(shape=(1,), dtype='int32')
-                
-        # Embedding layers
-        self.embedding = Embedding(
-            input_dim=len(input_vector), 
-            output_dim=int(units1 / 2),
-            input_length=len(input_vector[0])
-        )
-        self.flatten = Flatten()
-
-        # self.user_embedding = Embedding(
-        #     input_dim=len(user_ids), 
-        #     output_dim=int(units1 / 2),
-        #     input_length=1
-        # )
+        self.user_input = keras.layers.Input(shape=[1])
+        self.user_emb = keras.layers.Embedding(number_users + 1, emb_output_dim)
+        self.user_vector = keras.layers.Flatten()
         
-        # self.joke_embedding = Embedding(
-        #     input_dim=len(joke_ids),
-        #     output_dim=int(units1 / 2),
-        #     input_length=1
-        # )
+        self.joke_input = keras.layers.Input(shape=[1])
+        self.joke_emb = keras.layers.Embedding(number_jokes + 1, emb_output_dim)
+        self.joke_vector = keras.layers.Flatten()
         
-        # # Concatenate user and joke embeddings
-        # self.user_flatten = Flatten()
-        # self.joke_flatten = Flatten()
-        
-        self.layer_1 = Dense(units=units1, activation='relu')
-        self.layer_2 = Dense(units=units2, activation='relu')
-        self.layer_3 = Dense(units=units3, activation='relu')
-
-        self.dropout = Dropout(0.5)
-        
-        self.my_output = Dense(units=10, activation='tanh')
+        self.dense = keras.layers.Dense(units=32, activation='relu')
+        self.dense_2 = keras.layers.Dense(units=16, activation='relu')
+        self.dense_3 = keras.layers.Dense(units=12, activation='relu')
+        self.dense_4 = keras.layers.Dense(units=1, activation='relu')
         
 
     def call(self, x):
-        # user = self.user_embedding(x[0])
-        # joke = self.joke_embedding(x[1])
-        # x = concatenate([user, joke])
-        x = self.embedding(x)
-        x = self.flatten(x)
-        x = self.layer_1(x)
-        x = self.layer_2(x)
-        x = self.layer_3(x)
-        x = self.dropout(x)
-        x = self.my_output(x)
+        
+        print(x)
+        
+        user = self.user_input(x[0])
+        user = self.user_emb(user)
+        user = self.user_vector(user)
+        
+        joke = self.joke_input(x[1])
+        joke = self.joke_emb(joke)
+        joke = self.joke_vector(joke)
+        
+        x = concatenate([user, joke])
+        
+        x = self.dense(x)
+        x = self.dense_2(x)
+        x = self.dense_3(x)
+        x = self.dense_4(x)
         return x

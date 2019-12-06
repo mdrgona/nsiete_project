@@ -27,3 +27,11 @@ def encode(arr):
 
 def split_dataset(df, test_size=0.2):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=1)
+    
+    
+def split_data(df, test_size=0.2):
+    train, test = train_test_split(df, test_size=test_size, random_state=1)
+    return train, test
+    
+def encode_values(ids):
+    return ids.astype('category').cat.codes.values
