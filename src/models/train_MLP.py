@@ -7,39 +7,48 @@ import os
 from tensorflow import keras
 from src.data.load_data import *
 from src.models.model_MLP import JokeRecommender
+from tensorflow.keras.layers import Input
 
-# load data
+emb_output_dim = 5
+
+# load and preprocess data
 
 df = load_dataset(filename='../../data/Jester-Dataset-ratings.csv')
-user_ids, joke_ids, ratings = get_data(df, batch_size=20000)
+df = df[:20000]   # delete later
 
-# prepare data
+df['USER_ID'] = encode_values(df['USER_ID'])
+df['JOKE_ID'] = encode_values(df['JOKE_ID'])
 
-user_encoded = encode(user_ids)
-joke_encoded = encode(joke_ids)
+number_users = len(df['USER_ID'].unique())
+number_jokes = len(df['JOKE_ID'].unique())
 
-final_vector = []
-for u, i in zip(user_encoded, joke_encoded):
-    final_vector.append(np.concatenate((u, i), axis=None))
-    
+train, test = split_data(df)
+y_true = test['Rating']
 
-model = JokeRecommender(final_vector)
+
+model = JokeRecommender(emb_output_dim, number_users, number_jokes)
 
 model.compile(
     optimizer='adam', 
-    loss='mean_squared_error', 
-    metrics=['accuracy']
+    loss='mean_absolute_error', 
 )
-
-tensorboard_callback = keras.callbacks.TensorBoard(
-    log_dir=os.path.join("../../logs", str(datetime.now())),
-    histogram_freq=1)
 
 model.fit(
-    x=np.array(final_vector),
-    y=np.array(ratings),
-    batch_size=100, 
-    epochs=50,
-    callbacks=[tensorboard_callback],
-    validation_split=0.2
+    [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
+    np.array(train['Rating']), 
+    epochs=2, 
+    verbose=1, 
+    validation_split=0.1
 )
+
+
+# Evaluation
+print(model.summary())
+
+print(test['USER_ID'])
+print(test['JOKE_ID'])
+from sklearn.metrics import mean_absolute_error
+y_pred = model.predict([test['USER_ID'], test['JOKE_ID']])
+print("MSE")
+print(mean_absolute_error(y_true, y_pred))
+
