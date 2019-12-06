@@ -16,8 +16,10 @@ def get_data(df, batch_size=False):
     return user_ids, joke_ids, ratings
 
 
-def load_dataset(filename):
-    return pd.read_csv(filename, delimiter=',')
+def load_dataset(filename, nrows=0):
+    if nrows == 0:
+        return pd.read_csv(filename, delimiter=',')
+    return pd.read_csv(filename, delimiter=',', nrows=nrows)
 
 def encode(arr):
     return to_categorical(arr)
