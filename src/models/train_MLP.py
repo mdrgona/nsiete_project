@@ -25,6 +25,7 @@ number_jokes = len(df['JOKE_ID'].unique())
 train, test = split_data(df)
 y_true = test['Rating']
 
+print(np.array(train['Rating'], dtype="float32"))
 
 model = JokeRecommender(emb_output_dim, number_users, number_jokes)
 
@@ -42,13 +43,13 @@ model.fit(
 )
 
 
-# Evaluation
-print(model.summary())
+# # Evaluation
+# print(model.summary())
 
-print(test['USER_ID'])
-print(test['JOKE_ID'])
-from sklearn.metrics import mean_absolute_error
-y_pred = model.predict([test['USER_ID'], test['JOKE_ID']])
-print("MSE")
-print(mean_absolute_error(y_true, y_pred))
+# print(test['USER_ID'])
+# print(test['JOKE_ID'])
+# from sklearn.metrics import mean_absolute_error
+# y_pred = model.predict([test['USER_ID'], test['JOKE_ID']])
+# print("MSE")
+# print(mean_absolute_error(y_true, y_pred))
 
