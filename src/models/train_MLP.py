@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, "..")
+sys.path.append('../..')
+
 import numpy as np
 import os
 from tensorflow import keras
@@ -35,7 +36,6 @@ model.fit(
     np.array(train['Rating']), 
     epochs=10, 
     verbose=1,
-    learning_rate=0.001,
     validation_split=0.1,
     callbacks=[tb_cb]
 )
