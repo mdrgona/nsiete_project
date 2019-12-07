@@ -7,7 +7,7 @@ import os
 from tensorflow import keras
 from src.data.load_data import *
 from src.models.model_MLP import JokeRecommender
-from tensorflow.keras.layers import Input
+from src.models.predict import *
 
 emb_output_dim = 5
 
@@ -25,8 +25,6 @@ number_jokes = len(df['JOKE_ID'].unique())
 train, test = split_data(df)
 y_true = test['Rating']
 
-print(np.array(train['Rating'], dtype="float32"))
-
 model = JokeRecommender(emb_output_dim, number_users, number_jokes)
 
 model.compile(
@@ -37,19 +35,11 @@ model.compile(
 model.fit(
     [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
     np.array(train['Rating']), 
-    epochs=2, 
+    epochs=10, 
     verbose=1, 
     validation_split=0.1
 )
 
-
-# # Evaluation
-# print(model.summary())
-
-# print(test['USER_ID'])
-# print(test['JOKE_ID'])
-# from sklearn.metrics import mean_absolute_error
-# y_pred = model.predict([test['USER_ID'], test['JOKE_ID']])
-# print("MSE")
-# print(mean_absolute_error(y_true, y_pred))
-
+y_pred = predict(model, test)
+evaluate(y_true, y_pred)
+# get_precision(model, train, test)

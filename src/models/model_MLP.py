@@ -9,11 +9,9 @@ class JokeRecommender(keras.Model):
     def __init__(self, emb_output_dim, number_users, number_jokes):
         super(JokeRecommender, self).__init__()
         
-        # self.user_input = keras.layers.Input(shape=[1])
         self.user_emb = keras.layers.Embedding(number_users + 1, emb_output_dim)
         self.user_vector = keras.layers.Flatten()
         
-        # self.joke_input = keras.layers.Input(shape=[1])
         self.joke_emb = keras.layers.Embedding(number_jokes + 1, emb_output_dim)
         self.joke_vector = keras.layers.Flatten()
         
@@ -24,15 +22,10 @@ class JokeRecommender(keras.Model):
         
 
     def call(self, x):
-        
-        print(x)
-        
-        user = x[0] #self.user_input(x[0])
-        user = self.user_emb(user)
+        user = self.user_emb(x[0])
         user = self.user_vector(user)
         
-        joke = x[1] #self.joke_input(x[1])
-        joke = self.joke_emb(joke)
+        joke = self.joke_emb(x[1])
         joke = self.joke_vector(joke)
         
         x = concatenate([user, joke])
