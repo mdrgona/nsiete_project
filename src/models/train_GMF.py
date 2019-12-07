@@ -18,10 +18,19 @@ user_ids, joke_ids, ratings = get_data(df, batch_size=20000)
 user_encoded = encode(user_ids)
 joke_encoded = encode(joke_ids)
 
-final_vector = np.concatenate([user_encoded, joke_encoded], axis=1)
-
 n_users = len(user_encoded[0])
 n_jokes = len(joke_encoded[0])
+num_classes = n_users if n_users > n_jokes else n_jokes
+
+user_onehot = to_categorical(user_ids, num_classes=num_classes)
+joke_onehot = to_categorical(joke_ids, num_classes=num_classes)
+
+final_vector = np.concatenate([user_onehot, joke_onehot], axis=1)
+
+n_users = len(user_onehot[0])
+n_jokes = len(joke_onehot[0])
+
+print(n_users, n_jokes)
 
 model = JokeRecommender(n_users, n_jokes)
 
@@ -38,7 +47,7 @@ model.fit(
     x=np.array(final_vector),
     y=np.array(ratings),
     batch_size=100, 
-    epochs=50,
+    epochs=10,
     #callbacks=[tensorboard_callback],
     validation_split=0.2
 )

@@ -9,9 +9,6 @@ class JokeRecommender(keras.Model):
     def __init__(self, n_users, n_jokes, units1 = 64, units2 = 32, units3 = 8, dropout_rate=0.2):
         super(JokeRecommender, self).__init__()
 
-        self.user_input = keras.layers.Input(shape=[1])
-        self.joke_input = keras.layers.Input(shape=[1])
-
         self.split_user = Lambda(lambda x: x[:, :n_users])
         self.split_joke = Lambda(lambda x: x[:, n_users:])
         # Embedding layers for jokes
