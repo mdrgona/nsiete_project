@@ -16,7 +16,6 @@ tb_cb = keras.callbacks.TensorBoard(log_dir=os.path.join("../../logs", str(datet
 # Load and preprocess data
 
 df = load_dataset(filename='../../data/Jester-Dataset-ratings.csv')
-df = df[:20000]
 df['USER_ID'] = encode_values(df['USER_ID'])
 df['JOKE_ID'] = encode_values(df['JOKE_ID'])
 number_users = len(df['USER_ID'].unique())
@@ -34,13 +33,13 @@ model.compile(optimizer='adam', loss='mean_absolute_error')
 model.fit(
     [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
     np.array(train['Rating']), 
-    epochs=10, 
+    epochs=30, 
     verbose=1,
     validation_split=0.1,
     callbacks=[tb_cb]
 )
 
-# model.save('../../models/baseline_model') 
+model.save('../../models/MLP_1') 
 
 
 # Evaluate metrics
