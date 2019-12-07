@@ -1,7 +1,6 @@
 import sys
 sys.path.insert(0, "..")
 
-from datetime import datetime
 import numpy as np
 import os
 from tensorflow import keras
@@ -25,6 +24,8 @@ number_jokes = len(df['JOKE_ID'].unique())
 train, test = split_data(df)
 y_true = test['Rating']
 
+tb_cb = keras.callbacks.TensorBoard(log_dir=os.path.join("../../logs", str(datetime.datetime.now())),histogram_freq=1)
+
 model = JokeRecommender(emb_output_dim, number_users, number_jokes)
 
 model.compile(
@@ -37,8 +38,11 @@ model.fit(
     np.array(train['Rating']), 
     epochs=10, 
     verbose=1, 
-    validation_split=0.1
+    validation_split=0.1,
+    callbacks=[tb_cb]
 )
+
+# model.save('../../models/baseline_model') 
 
 y_pred = predict(model, test)
 evaluate(y_true, y_pred)
