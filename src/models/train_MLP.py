@@ -15,17 +15,14 @@ tb_cb = keras.callbacks.TensorBoard(log_dir=os.path.join("../../logs", str(datet
 
 # Load and preprocess data
 
-df = load_dataset(filename='../../data/Jester-Dataset-ratings.csv')
-df['USER_ID'] = encode_values(df['USER_ID'])
-df['JOKE_ID'] = encode_values(df['JOKE_ID'])
-number_users = len(df['USER_ID'].unique())
-number_jokes = len(df['JOKE_ID'].unique())
-
-train, test = split_data(df)
-y_true = test['Rating']
+train, _ = load_dataset()
+train['USER_ID'] = encode_values(train['USER_ID'])
+train['JOKE_ID'] = encode_values(train['JOKE_ID'])
+number_users = len(train['USER_ID'].unique())
+number_jokes = len(train['JOKE_ID'].unique())
 
 
-# Create, complie and fit model
+# Create, compile and fit model
 
 model = JokeRecommender(emb_output_dim, number_users, number_jokes)
 model.compile(optimizer='adam', loss='mean_absolute_error')
@@ -40,10 +37,3 @@ model.fit(
 )
 
 model.save('../../models/MLP_1') 
-
-
-# Evaluate metrics
-
-y_pred = predict(model, test)
-evaluate(y_true, y_pred)
-# get_precision(model, train, test)
