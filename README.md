@@ -26,7 +26,7 @@ Now, your docker should be running correctly. **Dont close current terminal and 
 2. Clone this repository: `git clone https://github.com/mdrgona/nsiete_project.git`
 3. Go to your cloned repository: `cd nsiete_project`
 4. Create docker image: `docker build -t ns_project .`
-5. Run docker (unix based system): `sudo docker run -u $(id -u):$(id -g) -p 8888:8888 -p 6006:6006 -v $(pwd):/labs -it ns_project
+5. Run docker (unix based system): `sudo docker run -u $(id -u):$(id -g) -p 8888:8888 -p 6006:6006 -v $(pwd):/labs -it ns_project`
 6. Open link in terminal, which should open your source tree.
 
 
