@@ -18,7 +18,8 @@ class JokeRecommender(keras.Model):
         self.joke_drop = keras.layers.Dropout(0.2)
 
         self.merge_dot = Dot(axes=1, normalize=True)
-        
+        self.dense = keras.layers.Dense(units=1, activation='relu')
+
 
     def call(self, x):
         user = self.user_emb(x[0])
@@ -30,5 +31,5 @@ class JokeRecommender(keras.Model):
         joke = self.joke_drop(joke)
         
         x = self.merge_dot([user, joke])
-   
+        x = self.dense(x)
         return x

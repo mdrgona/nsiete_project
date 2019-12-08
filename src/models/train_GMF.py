@@ -24,7 +24,6 @@ number_users = len(df['USER_ID'].unique())
 number_jokes = len(df['JOKE_ID'].unique())
 
 train, test = split_dataset(df)
-train = train[:50000]
 y_true = test['Rating']
 
 
