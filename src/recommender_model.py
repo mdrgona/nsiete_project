@@ -47,14 +47,14 @@ class RecommenderModel:
         data_input = np.array(list(itertools.product(users, jokes)))
         user_ids = data_input[:, 0]
         joke_ids = data_input[:, 1]
-        print([data_input[:, 0], data_input[:, 1]])
+        
         logger.info('Predicting')
         predicted_ratings = self.model.predict([user_ids, joke_ids])
 
         logger.info('Saving')
         predicted_table = pd.DataFrame(data={'USER_ID': user_ids, 'JOKE_ID': joke_ids, 'score': predicted_ratings.T[0]})
         self.predictions = predicted_table.pivot(index='JOKE_ID', columns='USER_ID', values='score').fillna(0)
-        print(self.predictions)
+        
         logger.info('Done')
               
         return self
