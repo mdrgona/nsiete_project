@@ -5,4 +5,5 @@ RUN pip3 install scipy
 RUN pip3 install xlrd
 RUN pip3 install sklearn
 RUN pip3 install seaborn
+RUN pip3 install pyyaml
 
