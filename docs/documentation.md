@@ -41,7 +41,7 @@ Používame viacero modelov (a ich variantov):
 Tento model sme navrhli ako prvý a predstavuje východiskový variant (angl. baseline). 
 Typ a počet vrstiev, počet neurónov v rámci vrstiev a ďalšie parametre boli skúšané náhodne (a manuálne).
 Architektúra NN je na obrázku
-
+!['Model MLP 1'](images/model-1A.png)
 **TODO**
 
 #### 1b) Viacvrstvovy perceptron 2 (MLP-2)
@@ -49,21 +49,19 @@ Pôvodný variant MLP sme upravili podľa existujúcej práce [1]. Úprava spoč
 nových skrytých vrsiev (dropout a batch-normalization) a zvýšeniu počtu neuronov na vrstách. 
 Očakávame zlepšenie pôvodného variantu.
 Architektúra NN je na obrázku
-
-**TODO**
+!['Model MLP 2'](images/model-1B.png)
 
 #### 2) GMF
 GMF (General matrix factorization) predstavuje deep learning prístup ku klasickej faktorizácii matíc. 
 Architektúra NN je na obrázku
-
-**TODO**
+!['Model GMF'](images/model-GMF.png)
 
 #### 3) MLP-2 + GMF
 Na základe existújucich riešení bolo zistené, že spojenie predošlých 2 typov modelov zlepšuje výsledky. 
 Preto sme sa rozhodli aj my navrhnuté modely spojiť do jedného celkového.
 Architektúra NN je na obrázku
 
-**TODO**
+!['Model MLP-2 + GMF'](images/model-MLP-GMF.png)
 
 #### SVD
 SVD predstavuje state-of-the-art pristup v doméne odporúčaní, ktorý sme použili s cieľom porovnať naše riešenia.
@@ -75,6 +73,8 @@ bolo predikované hodnotenie a následne overené, ako veľmi sa líši od očak
 Modely a ich varianty sme vyhodnocovali pomocou nasledujúcich metrík:
 * Mean absolute error (MAE)
 * Precision@10
+
+Natrénovaným modelom sme skúsili vygenerovať pre používateľa odporúčania a vyhodnocovali sme ich presnosť metrikov precision@10. Pomocou natrénovaného modelu sme predikovali všetky hodnotenia pre používateľa a odporučili mu 10 najlepšie hodnotených vtipov. 
 
 ## Výsledky experimentov
 
@@ -95,8 +95,16 @@ Precision@10:    : 0.0633
 
 ### Vysledok SVD
 
-Prehľadná tabuľka na konci
+Precision@10:    : 
 
+
+| Model   | Precision@10 |
+|---------|--------------|
+| MLP-1   | 0.0603       |
+| MLP-2   | 0.0633       |
+| GMF     |              |
+| MLP+GMF |              |
+| SVD     |              |
 
 
 ## Referencie

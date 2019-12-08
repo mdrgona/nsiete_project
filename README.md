@@ -31,15 +31,23 @@ Now, your docker should be running correctly. **Dont close current terminal and 
 
 
 # Project hierarchy
+- **docs**: documentation
 - **docker**: docker files
 - **logs**: logs created during training the neural network. Each log has its own timestamp and directory for train and for validate
-- **notebooks**: jupyter notebooks, consists of data analysis and our experiments with implementation
+- **models**: saved trained models
+- **notebooks**: data analysis
 - **src**: important source codes
   - **data**: files associated to data processing
+    - **load_data.py**: data processing
+    - **split_data.py**: split dataset 
   - **models**: files associated to model implementation
-    - **model.py**: implementation of joke recommender
-    - **train.py**: training pipeline
+    - **model_MLP.py**: implementation of MLP model
+    - **train_MLP.py**: training pipeline of MLP model
+    - **model_GMF.py**: implementation of GMF model
+    - **train_GMF.py**: training pipeline of GMF model
+    - **model_both.py**: implementation of MLP + GMF
+    - **train_both.py**: training pipeline of MLP + GMF
     - **predict.py**: implementation of evaluate metrics and prediction in general
-    - **main.ipynb**: main file, where we are able to run training
-- **Evaluator.ipynb**: state of the art recommender implementation (not deep learning)
-- **Project_proposal.ipynb**: proposal of project including motivation, related work and described dataset
+    - **svd.py**: SVD state-of-the-art model
+    - **recommender_model.py**: evaluation of precision@metric
+    - **main.ipynb**: tensorboard and results analysis
