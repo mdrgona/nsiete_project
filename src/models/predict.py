@@ -11,7 +11,7 @@ def predict(model, test):
     return model.predict([np.array(test['USER_ID']), np.array(test['JOKE_ID'])])
 
 
-def evaluate(y_pred, model, train, test):
+def evaluate(model, train, test):
     # TODO: refactor. 
     
     y_pred = predict(model, test)
