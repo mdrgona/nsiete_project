@@ -31,7 +31,7 @@ Now, your docker should be running correctly. **Dont close current terminal and 
 
 
 # Project hierarchy
-- **dodcs**: documentation
+- **docs**: documentation
 - **docker**: docker files
 - **logs**: logs created during training the neural network. Each log has its own timestamp and directory for train and for validate
 - **models**: saved trained models
