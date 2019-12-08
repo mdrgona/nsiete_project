@@ -1,53 +1,47 @@
 import sys
-sys.path.insert(0, "..")
+sys.path.append('../..')
 
-from datetime import datetime
 import numpy as np
 import os
 from tensorflow import keras
 from src.data.load_data import *
 from src.models.model_GMF import JokeRecommender
+from src.models.predict import *
 
-# load data
+# Set constants
+emb_output_dim = 5
+tb_cb = keras.callbacks.TensorBoard(log_dir=os.path.join("../../logs", str(datetime.datetime.now())),histogram_freq=1)
 
-df = load_dataset(filename='../../data/Jester-Dataset-ratings.csv')
-user_ids, joke_ids, ratings = get_data(df, batch_size=20000)
 
-# prepare data
+# Load and preprocess data
 
-user_encoded = encode(user_ids)
-joke_encoded = encode(joke_ids)
+df = load_dataset('../../data/Jester-Dataset-ratings.csv')
 
-n_users = len(user_encoded[0])
-n_jokes = len(joke_encoded[0])
-num_classes = n_users if n_users > n_jokes else n_jokes
+df['USER_ID'] = encode_values(df['USER_ID'])
+df['JOKE_ID'] = encode_values(df['JOKE_ID'])
 
-user_onehot = to_categorical(user_ids, num_classes=num_classes)
-joke_onehot = to_categorical(joke_ids, num_classes=num_classes)
+number_users = len(df['USER_ID'].unique())
+number_jokes = len(df['JOKE_ID'].unique())
 
-final_vector = np.concatenate([user_onehot, joke_onehot], axis=1)
+train, test = split_dataset(df)
+train = train[:50000]
+y_true = test['Rating']
 
-n_users = len(user_onehot[0])
-n_jokes = len(joke_onehot[0])
 
-print(n_users, n_jokes)
-
-model = JokeRecommender(n_users, n_jokes)
-
-model.compile(
-    optimizer='adam', 
-    loss='mean_squared_error'
-)
-
-tensorboard_callback = keras.callbacks.TensorBoard(
-    log_dir=os.path.join("../../logs", str(datetime.now())),
-    histogram_freq=1)
+# Create, compile and fit model
+model = JokeRecommender(emb_output_dim, number_users, number_jokes)
+model.compile(optimizer='adam', loss='mean_absolute_error')
 
 model.fit(
-    x=np.array(final_vector),
-    y=np.array(ratings),
-    batch_size=100, 
-    epochs=10,
-    #callbacks=[tensorboard_callback],
-    validation_split=0.2
+        [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
+        np.array(train['Rating']), 
+        epochs=20, 
+        verbose=1,
+        validation_split=0.1,
+        callbacks=[tb_cb]
 )
+
+model.save('../../models/GMF')
+
+rec_train, rec_test = split_dataset(df)
+evaluate(model, rec_train, rec_test)

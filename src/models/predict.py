@@ -3,8 +3,8 @@ sys.path.insert(0, "..")
 
 from sklearn.metrics import mean_absolute_error
 import numpy as np
-from src.recommender_model import *
-from src.svd import *
+from src.models.recommender_model import *
+from src.models.svd import *
 from src.data.load_data import *
 
 def predict(model, test):
