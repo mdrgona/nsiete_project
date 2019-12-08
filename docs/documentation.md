@@ -80,7 +80,14 @@ Modely a ich varianty sme vyhodnocovali pomocou nasledujúcich metrík:
 
 ### Experiment 1 (MLP-1)
 
+Mean absolute error: 3.3987
+Precision@10:    : 0.0603
+ 
+
 ### Experiment 2 (MLP-2)
+
+Mean absolute error: 3.4636
+Precision@10:    : 0.0633
 
 ### Experiment 3 (GMF)
 
