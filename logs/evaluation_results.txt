@@ -4,3 +4,9 @@ Precision@10:    : 0.0633
 
 
 
+Evaluating model MLP
+Mean absolute error: 3.3987
+Precision@10:    : 0.0603
+
+
+

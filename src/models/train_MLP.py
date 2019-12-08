@@ -40,7 +40,7 @@ model.fit(
         callbacks=[tb_cb]
 )
 
-model.save('../../models/MLP_2')
+model.save('../../models/MLP_1v2')
 
 
 # TODO: Refactor
