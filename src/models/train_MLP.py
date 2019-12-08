@@ -15,25 +15,33 @@ tb_cb = keras.callbacks.TensorBoard(log_dir=os.path.join("../../logs", str(datet
 
 # Load and preprocess data
 
-train, _ = load_dataset()
-train['USER_ID'] = encode_values(train['USER_ID'])
-train['JOKE_ID'] = encode_values(train['JOKE_ID'])
-number_users = len(train['USER_ID'].unique())
-number_jokes = len(train['JOKE_ID'].unique())
+df = load_dataset('../../data/Jester-Dataset-ratings.csv')
+df = df[:50000]
+df['USER_ID'] = encode_values(df['USER_ID'])
+df['JOKE_ID'] = encode_values(df['JOKE_ID'])
 
+number_users = len(df['USER_ID'].unique())
+number_jokes = len(df['JOKE_ID'].unique())
+
+train, test = split_dataset(df)
+y_true = test['Rating']
 
 # Create, compile and fit model
-
 model = JokeRecommender(emb_output_dim, number_users, number_jokes)
 model.compile(optimizer='adam', loss='mean_absolute_error')
 
 model.fit(
-    [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
-    np.array(train['Rating']), 
-    epochs=30, 
-    verbose=1,
-    validation_split=0.1,
-    callbacks=[tb_cb]
+        [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
+        np.array(train['Rating']), 
+        epochs=5, 
+        verbose=1,
+        validation_split=0.1,
+        callbacks=[tb_cb]
 )
 
-model.save('../../models/MLP_1') 
+model.save('../../models/MLP_1')
+
+
+# TODO: Refactor
+y_pred = predict(model, test)
+evaluate(y_pred, model, test)

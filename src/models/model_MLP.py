@@ -18,7 +18,7 @@ class JokeRecommender(keras.Model):
         self.dense = keras.layers.Dense(units=32, activation='relu')
         self.dense_2 = keras.layers.Dense(units=16, activation='relu')
         self.dense_3 = keras.layers.Dense(units=12, activation='relu')
-        self.dense_4 = keras.layers.Dense(units=1, activation='relu')
+        self.dense_4 = keras.layers.Dense(units=1, activation='relu')      
         
 
     def call(self, x):
