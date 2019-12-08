@@ -43,5 +43,5 @@ model.save('../../models/MLP_1')
 
 
 # TODO: Refactor
-y_pred = predict(model, test)
-evaluate(y_pred, model, test)
+rec_train, rec_test = split_dataset(df)
+evaluate(y_pred, model, rec_train, rec_test)

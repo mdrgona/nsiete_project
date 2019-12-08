@@ -16,17 +16,15 @@ def encode_values(ids):
 
 
 
-# def get_data(df, batch_size=False):
-    
-#     if not batch_size:
-#         batch_size = len(df)
+def get_data(df, batch_size=False):
+    if not batch_size:
+        batch_size = len(df)
         
-        
-#     user_ids = df['USER_ID'][0:batch_size].tolist()
-#     joke_ids = df['JOKE_ID'][0:batch_size].tolist()
-#     ratings = df['Rating'][0:batch_size].tolist()
+    user_ids = df['USER_ID'][0:batch_size].tolist()
+    joke_ids = df['JOKE_ID'][0:batch_size].tolist()
+    ratings = df['Rating'][0:batch_size].tolist()
     
-#     return user_ids, joke_ids, ratings
+    return user_ids, joke_ids, ratings
 
 
 # def load_dataset(filename, nrows=0):

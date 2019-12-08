@@ -20,6 +20,7 @@ from tensorflow.keras import initializers
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Embedding, Input, Dense, Flatten, concatenate
 from src.data.load_data import *
+import itertools
 
 class RecommenderModel:
 
@@ -27,7 +28,7 @@ class RecommenderModel:
         self.model = model
         logger.info('RecommenderModel initialized')
 
-    def fit(self, ratings, predicted_ratings):
+    def fit(self, ratings):
         """
         Train a model.
  |      
@@ -39,14 +40,21 @@ class RecommenderModel:
         """
         self.ratings = ratings
 
-#         logger.info('Data handling')        
-#         user_ids, joke_ids, ratings = get_data(df=ratings, batch_size=20000)
-#         logger.info('Predicting')
-#         predicted_ratings = self.model.predict([np.array(user_ids), np.array(joke_ids)])
+        logger.info('Data handling')
+        ratings_pivot = ratings.pivot(index='USER_ID', columns='JOKE_ID', values='Rating').fillna(0)
+        users = ratings_pivot.index
+        jokes = ratings_pivot.columns
+        data_input = np.array(list(itertools.product(users, jokes)))
+        user_ids = data_input[:, 0]
+        joke_ids = data_input[:, 1]
+        print([data_input[:, 0], data_input[:, 1]])
+        logger.info('Predicting')
+        predicted_ratings = self.model.predict([user_ids, joke_ids])
 
         logger.info('Saving')
-        predicted_table = pd.DataFrame(data={'USER_ID': ratings['USER_ID'], 'JOKE_ID': ratings['JOKE_ID'], 'score': predicted_ratings.T[0]})
+        predicted_table = pd.DataFrame(data={'USER_ID': user_ids, 'JOKE_ID': joke_ids, 'score': predicted_ratings.T[0]})
         self.predictions = predicted_table.pivot(index='JOKE_ID', columns='USER_ID', values='score').fillna(0)
+        print(self.predictions)
         logger.info('Done')
               
         return self

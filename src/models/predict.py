@@ -11,13 +11,14 @@ def predict(model, test):
     return model.predict([np.array(test['USER_ID']), np.array(test['JOKE_ID'])])
 
 
-def evaluate(y_pred, model, test):
+def evaluate(y_pred, model, train, test):
     # TODO: refactor. 
     
+    y_pred = predict(model, test)
     y_true = test['Rating']
     
     MAE = np.round(mean_absolute_error(y_true, y_pred), 4)
-    precision = np.round(get_precision(model, test, y_pred), 4)
+    precision = np.round(get_precision(model, train, test), 4)
     
     print("----------------")
     print("Evaluating model MLP")
@@ -33,16 +34,15 @@ def save_results(MAE, precision):
     f = open("../../logs/evaluation_results.txt", "a")
     f.write("Evaluating model MLP\n")
     f.write("Mean absolute error: " + str(MAE))
-    f.write("\nPrecision:         : " + str(precision))
+    f.write("\nPrecision@10:    : " + str(precision))
     f.write("\n\n\n\n")
     f.close()
     
     
     
-def get_precision(model, test, y_pred):
-    
+def get_precision(model, train, test):
     recommender_model = RecommenderModel(model)
-    recommender_model.fit(test, y_pred)
+    recommender_model.fit(train)
 
     users = test['USER_ID'].unique()
     precision_model = 0
