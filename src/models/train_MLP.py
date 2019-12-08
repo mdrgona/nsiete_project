@@ -34,13 +34,13 @@ model.compile(optimizer='adam', loss='mean_absolute_error')
 model.fit(
         [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
         np.array(train['Rating']), 
-        epochs=30, 
+        epochs=20, 
         verbose=1,
         validation_split=0.1,
         callbacks=[tb_cb]
 )
 
-model.save('../../models/MLP_1')
+model.save('../../models/MLP_2')
 
 
 # TODO: Refactor

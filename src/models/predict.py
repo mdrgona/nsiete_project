@@ -21,7 +21,7 @@ def evaluate(model, train, test):
     precision = np.round(get_precision(model, train, test), 4)
     
     print("----------------")
-    print("Evaluating model MLP")
+    print("Evaluating model MLP 2")
     print("Mean absolute error: " + str(MAE))
     print("Precision@10:      : " + str(precision))
     print("---------------------------")
