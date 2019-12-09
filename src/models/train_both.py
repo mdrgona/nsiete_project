@@ -25,7 +25,6 @@ number_users = len(df['USER_ID'].unique())
 number_jokes = len(df['JOKE_ID'].unique())
 
 train, test = split_dataset(df)
-train = train[:50000]
 y_true = test['Rating']
 
 # Create, compile and fit model
@@ -35,7 +34,7 @@ model.compile(optimizer='adam', loss='mean_absolute_error')
 model.fit(
         [np.array(train['USER_ID']), np.array(train['JOKE_ID'])],
         np.array(train['Rating']), 
-        epochs=5, 
+        epochs=20, 
         verbose=1,
         validation_split=0.1,
         callbacks=[tb_cb]
