@@ -42,7 +42,6 @@ Tento model sme navrhli ako prvý a predstavuje východiskový variant (angl. ba
 Typ a počet vrstiev, počet neurónov v rámci vrstiev a ďalšie parametre boli skúšané náhodne (a manuálne).
 Architektúra NN je na obrázku
 !['Model MLP 1'](images/model-1A.png)
-**TODO**
 
 #### 1b) Viacvrstvovy perceptron 2 (MLP-2)
 Pôvodný variant MLP sme upravili podľa existujúcej práce [1]. Úprava spočívala najmä v pridaní zopár 
@@ -56,7 +55,7 @@ GMF (General matrix factorization) predstavuje deep learning prístup ku klasick
 Architektúra NN je na obrázku
 !['Model GMF'](images/model-GMF.png)
 
-#### 3) MLP-2 + GMF
+#### 3) MLP-1 + GMF
 Na základe existújucich riešení bolo zistené, že spojenie predošlých 2 typov modelov zlepšuje výsledky. 
 Preto sme sa rozhodli aj my navrhnuté modely spojiť do jedného celkového.
 Architektúra NN je na obrázku
@@ -74,37 +73,64 @@ Modely a ich varianty sme vyhodnocovali pomocou nasledujúcich metrík:
 * Mean absolute error (MAE)
 * Precision@10
 
-Natrénovaným modelom sme skúsili vygenerovať pre používateľa odporúčania a vyhodnocovali sme ich presnosť metrikov precision@10. Pomocou natrénovaného modelu sme predikovali všetky hodnotenia pre používateľa a odporučili mu 10 najlepšie hodnotených vtipov. 
+**MAE**
+Metrika MAE (v preklade priemerná absolutná chyba) vyjadruje sumu priemerných chýb medzi očakávanou a predikovanou hodnotou. Pre každý záznam z testovacej podmnožiny sa predikuje hodnota, tá sa odčíta od očakávanej a z výsledku je spravená absolutná hodnota. Rovnaký proces sa vykoná so všetkými zaznámami a suma sa vydelí počtom záznamov.
+
+**Precision@10**
+Natrénovaným modelom sme skúsili vygenerovať pre používateľa odporúčania a vyhodnocovali sme ich presnosť metrikou precision@10. Pomocou natrénovaného modelu sme predikovali všetky hodnotenia pre používateľa a odporučili mu 10 najlepšie hodnotených vtipov. 
 
 ## Výsledky experimentov
 
 ### Experiment 1 (MLP-1)
+V prvom experimente sme natrénovali model MLP-1 (architektúra uvedená vyššie v rámci časti 1.a). Model bol natrénovaný použitím **20 epoch**. Trénovanie trvalo takmer 30 minút. Graf stratovej funkcie je na nasledujúcom obrázku.
+!['MLP-1'](images/MLP-1.png)
 
-Mean absolute error: 3.3987
-Precision@10:    : 0.0603
- 
+Stratová funkcia trénovacej podmnožiny začala na 3.449 a po 20 epochách neustáleho klesania dosiahla úroveň 3.095.
+Stratová funkcia validačnej podmnožiny najprv klesala, avšak po 8. epoche začala pomaly stúpať. Ideálne by bolo, keby sme stopli trénovanie modelu po tejto epoche.
+
+Po evaluácií sme dostali takéto výsledky:
+* Mean absolute error: **3.3987**
+* Precision@10: **0.0603**
 
 ### Experiment 2 (MLP-2)
+V druhom experimente sme použili väčší model MLP-2 (architektúra uvedená vyššie v rámci časti 1.b). Taktiež sme trénovali 20 epoch, čas trvania je takmer 40 minút. Graf stratovej funkcie je na nasledujúcom obrázku.
 
-Mean absolute error: 3.4636
-Precision@10:    : 0.0633
+!['MLP-2'](images/MLP-2.png)
+
+V tomto prípade nám postupne klesala stratová funkcia aj nad trénovacou aj validačnou časťou, ale hodnota výslednej stratovej funkcie (aj trénovacej aj validačnej) nedokázala prekonať hodnoty predchádzajúceho modelu.
+
+Prekvapením bolo taktiež vyhodnotenie metrík:
+* Mean absolute error: **3.4636**
+* Precision@10: **0.0633**
+
+Keďže vrstvy a parametre tohto modelu boli použité podľa existujúcej práce, očakávali sme zlepšenie pôvodného modelu. Avšak, v našom probléme sa lepším riešením javí byť jednoduchší model s menším počtom vrstiev a neurónov na nich. Metrika Precision@10 síce dosiahla mierne lepší výsledok, no MAE tohto modelu je horšie.
 
 ### Experiment 3 (GMF)
+Ďalším experimentom bolo použitie modelu GMF (architektúra uvedená vyššie v rámci časti 2). Trénovanie 20 epoch, čas trvania takmer 29 minút. Graf stratovej funkcie je na nasledujúcom obrázku.
 
-### Experiment 4 (MLP-2 + GMF)
+!['GMF'](images/GMF.png)
+V tomto prípade hladko klesali obe stratové funkcie počas celého trvania trénovania. Ich hodnoty sú porovnateľné s predchádzajúcimi modelmi.
+
+Výsledky GMF modelu sú nasledovné:
+* Mean absolute error: **3.4272**
+* Precision@10: **0.0635**
+
+Opäť nastalo mierne zlepšenie metriky Precision@10, no čo sa týka MAE, nebol prekonaný prvý model (MLP-1). Avšak, GMF ukazuje lepšiu úspešnosť ako zložitejší model MLP-2
+
+### Experiment 4 (MLP-1 + GMF)
 
 ### Vysledok SVD
 
 Precision@10:    : 
 
 
-| Model   | Precision@10 |
-|---------|--------------|
-| MLP-1   | 0.0603       |
-| MLP-2   | 0.0633       |
-| GMF     |              |
-| MLP+GMF |              |
-| SVD     |              |
+| Model   | Mean absolute error | Precision@10 |
+|---------|---------------------|--------------|
+| MLP-1   |      3.3987         |    0.0603    |
+| MLP-2   |      3.4636         |    0.0633    |
+| GMF     |      3.4272         |    0.0635    |
+| MLP+GMF |                     |              |
+| SVD     |                     |              |
 
 
 ## Referencie
