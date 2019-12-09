@@ -112,6 +112,7 @@ Keďže vrstvy a parametre tohto modelu boli použité podľa existujúcej prác
 Ďalším experimentom bolo použitie modelu GMF (architektúra uvedená vyššie v rámci časti 2). Trénovanie 20 epoch, čas trvania takmer 29 minút. Graf stratovej funkcie je na nasledujúcom obrázku.
 
 !['GMF'](images/GMF.png)
+
 V tomto prípade hladko klesali obe stratové funkcie počas celého trvania trénovania. Ich hodnoty sú porovnateľné s predchádzajúcimi modelmi.
 
 Výsledky GMF modelu sú nasledovné:
@@ -125,10 +126,13 @@ Posledným variatnom je spojenie úspešnejšieho MLP (teda MLP-1) a GMF. Archit
 
 !['MLP+GMF'](images/MLP+GMF.png)
 
+Stratová funkcia trénovacej aj validačnej podmnožiny datasetov neustále klesali. Hodnota validačnej podmnožina prekonala všetky predošlé o viac ako 0.15 bodov (validačná stratová funkcia tohto experimentu je 3.222, zatiaľ čo najlepšia doteraz bola 3.391). Preto očakávame, že tento model ponúkne aj najlepšie doterajšie výsledky.
 
-Výsledky tohto variantu sú nasledovné:
-* Mean absolute error: **TODO**
-* Precision@10: **TODO**
+Očakávanie bolo naplnené:
+* Mean absolute error: **3.2183**
+* Precision@10: **0.0704**
+
+Spojenie modelov MLP-1 a GMF dokázalo zlepšiť aktuálne najlepšiu MAE o 0.18 bodov a taktiež dosiahlo najlepšiu precision@10. 
 
 ### Výsledok SVD
 
@@ -138,7 +142,7 @@ Výsledky tohto variantu sú nasledovné:
 | MLP-1   |      3.3987         |    0.0603    |
 | MLP-2   |      3.4636         |    0.0633    |
 | GMF     |      3.4272         |    0.0635    |
-| MLP+GMF |                     |              |
+| MLP+GMF |    **3.2183**       |  **0.0704**  |
 | SVD     |                     |              |
 
 ## Ďalšia práca
