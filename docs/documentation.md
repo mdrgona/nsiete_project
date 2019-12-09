@@ -122,7 +122,7 @@ Výsledky GMF modelu sú nasledovné:
 Opäť nastalo mierne zlepšenie metriky Precision@10, no čo sa týka MAE, nebol prekonaný prvý model (MLP-1). Avšak, GMF ukazuje lepšiu úspešnosť ako zložitejší model MLP-2
 
 ### Experiment 4 (MLP-1 + GMF)
-Posledným variatnom je spojenie úspešnejšieho MLP (teda MLP-1) a GMF. Architektúra tohto modelu je v rámci 3: MLP-1+GMF. Spojenie spočíva v zreťazení poslednej vrstvy pôvodného MLP a GMF do jednej. Trénovanie 20 epoch, čas trvania takmer XXX minút. Graf stratovej funkcie je na nasledujúcom obrázku.
+Posledným variatnom je spojenie úspešnejšieho MLP (teda MLP-1) a GMF. Architektúra tohto modelu je v rámci 3: MLP-1+GMF. Spojenie spočíva v zreťazení poslednej vrstvy pôvodného MLP a GMF do jednej. Trénovanie 20 epoch, čas trvania takmer 42  minút. Graf stratovej funkcie je na nasledujúcom obrázku.
 
 !['MLP-GMF'](images/MLP-GMF.png)
 
@@ -136,6 +136,8 @@ Spojenie modelov MLP-1 a GMF dokázalo zlepšiť aktuálne najlepšiu MAE o 0.18
 
 ### Výsledok SVD
 
+Metódu SVD sme vyhodnocovali metrikou precision@10 a dosiahla výsledok 0.1762, čo je vyššia ako naše neurónové riešenia. Očakávali sme viac.
+
 
 | Model   | Mean absolute error | Precision@10 |
 |---------|---------------------|--------------|
@@ -143,7 +145,7 @@ Spojenie modelov MLP-1 a GMF dokázalo zlepšiť aktuálne najlepšiu MAE o 0.18
 | MLP-2   |      3.4636         |    0.0633    |
 | GMF     |      3.4272         |    0.0635    |
 | MLP+GMF |    **3.2183**       |  **0.0704**  |
-| SVD     |                     |              |
+| SVD     |                     |    0.1762    |
 
 ## Ďalšia práca
 Projekt by mohol pokračovať viacerými smermi, no v prípade možnosti dodatočnej práce by sme začali nasledujúcimi krokmi:
