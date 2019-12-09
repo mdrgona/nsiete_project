@@ -56,4 +56,21 @@ def get_precision(model, train, test):
         precision_model = precision_model + user_precision_model
 
     return precision_model / len(users)
+
+
+
+def svd_precision(train, test):
+    svd = Svd()
+    svd.fit(train)
+
+    users = test['USER_ID'].unique()
+    precision_svd = 0
+
+    for user in users:
+        user_rec_svd = list(svd.recommend(user, 10)['JOKE_ID'])
+        user_test = list(test[test['USER_ID'] == user]['JOKE_ID'])
+        user_precision_svd = len(set(user_rec_svd).intersection(user_test)) / 10
+        precision_svd = precision_svd + user_precision_svd
+        
+    print('precision@10 svd', precision_svd / len(users))
     
