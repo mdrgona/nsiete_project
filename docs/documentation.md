@@ -74,9 +74,11 @@ Modely a ich varianty sme vyhodnocovali pomocou nasledujúcich metrík:
 * Precision@10
 
 **MAE**
+
 Metrika MAE (v preklade priemerná absolutná chyba) vyjadruje sumu priemerných chýb medzi očakávanou a predikovanou hodnotou. Pre každý záznam z testovacej podmnožiny sa predikuje hodnota, tá sa odčíta od očakávanej a z výsledku je spravená absolutná hodnota. Rovnaký proces sa vykoná so všetkými zaznámami a suma sa vydelí počtom záznamov.
 
 **Precision@10**
+
 Natrénovaným modelom sme skúsili vygenerovať pre používateľa odporúčania a vyhodnocovali sme ich presnosť metrikou precision@10. Pomocou natrénovaného modelu sme predikovali všetky hodnotenia pre používateľa a odporučili mu 10 najlepšie hodnotených vtipov. 
 
 ## Výsledky experimentov
