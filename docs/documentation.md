@@ -124,7 +124,7 @@ Opäť nastalo mierne zlepšenie metriky Precision@10, no čo sa týka MAE, nebo
 ### Experiment 4 (MLP-1 + GMF)
 Posledným variatnom je spojenie úspešnejšieho MLP (teda MLP-1) a GMF. Architektúra tohto modelu je v rámci 3: MLP-1+GMF. Spojenie spočíva v zreťazení poslednej vrstvy pôvodného MLP a GMF do jednej. Trénovanie 20 epoch, čas trvania takmer XXX minút. Graf stratovej funkcie je na nasledujúcom obrázku.
 
-!['MLP+GMF'](images/MLP+GMF.png)
+!['MLP-GMF'](images/MLP-GMF.png)
 
 Stratová funkcia trénovacej aj validačnej podmnožiny datasetov neustále klesali. Hodnota validačnej podmnožina prekonala všetky predošlé o viac ako 0.15 bodov (validačná stratová funkcia tohto experimentu je 3.222, zatiaľ čo najlepšia doteraz bola 3.391). Preto očakávame, že tento model ponúkne aj najlepšie doterajšie výsledky.
 
