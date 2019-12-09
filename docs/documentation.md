@@ -40,25 +40,26 @@ Používame viacero modelov (a ich variantov):
 #### 1a) Viacvrstvovy perceptron 1 (MLP-1)
 Tento model sme navrhli ako prvý a predstavuje východiskový variant (angl. baseline). 
 Typ a počet vrstiev, počet neurónov v rámci vrstiev a ďalšie parametre boli skúšané náhodne (a manuálne).
-Architektúra NN je na obrázku
+Architektúra NN je na obrázku:
+
 !['Model MLP 1'](images/model-1A.png)
 
 #### 1b) Viacvrstvovy perceptron 2 (MLP-2)
 Pôvodný variant MLP sme upravili podľa existujúcej práce [1]. Úprava spočívala najmä v pridaní zopár 
 nových skrytých vrsiev (dropout a batch-normalization) a zvýšeniu počtu neuronov na vrstách. 
-Očakávame zlepšenie pôvodného variantu.
-Architektúra NN je na obrázku
+Očakávame zlepšenie pôvodného variantu. Architektúra NN je na obrázku:
+
 !['Model MLP 2'](images/model-1B.png)
 
 #### 2) GMF
-GMF (General matrix factorization) predstavuje deep learning prístup ku klasickej faktorizácii matíc. 
-Architektúra NN je na obrázku
+GMF (General matrix factorization) predstavuje deep learning prístup ku klasickej faktorizácii matíc. Architektúra NN je na obrázku:
+
 !['Model GMF'](images/model-GMF.png)
 
 #### 3) MLP-1 + GMF
 Na základe existújucich riešení bolo zistené, že spojenie predošlých 2 typov modelov zlepšuje výsledky. 
 Preto sme sa rozhodli aj my navrhnuté modely spojiť do jedného celkového.
-Architektúra NN je na obrázku
+Architektúra NN je na obrázku:
 
 !['Model MLP-2 + GMF'](images/model-MLP-GMF.png)
 
@@ -120,10 +121,16 @@ Výsledky GMF modelu sú nasledovné:
 Opäť nastalo mierne zlepšenie metriky Precision@10, no čo sa týka MAE, nebol prekonaný prvý model (MLP-1). Avšak, GMF ukazuje lepšiu úspešnosť ako zložitejší model MLP-2
 
 ### Experiment 4 (MLP-1 + GMF)
+Posledným variatnom je spojenie úspešnejšieho MLP (teda MLP-1) a GMF. Architektúra tohto modelu je v rámci 3: MLP-1+GMF. Spojenie spočíva v zreťazení poslednej vrstvy pôvodného MLP a GMF do jednej. Trénovanie 20 epoch, čas trvania takmer XXX minút. Graf stratovej funkcie je na nasledujúcom obrázku.
 
-### Vysledok SVD
+!['MLP+GMF'](images/MLP+GMF.png)
 
-Precision@10:    : 
+
+Výsledky tohto variantu sú nasledovné:
+* Mean absolute error: **TODO**
+* Precision@10: **TODO**
+
+### Výsledok SVD
 
 
 | Model   | Mean absolute error | Precision@10 |
@@ -134,6 +141,11 @@ Precision@10:    :
 | MLP+GMF |                     |              |
 | SVD     |                     |              |
 
+## Ďalšia práca
+Projekt by mohol pokračovať viacerými smermi, no v prípade možnosti dodatočnej práce by sme začali nasledujúcimi krokmi:
+1. možnosť nastavovania parametrov dynamicky v konzole. Teraz sme bohužiaľ nestihli túto možnosť implementovať a aj preto máme viacero súborov na trénovanie a viacero modelov. Dynamické nastavovanie modelu by tento súčasný problém eliminovalo a urýchlilo skúšanie parametrov
+2. viac automatického hyperparameter tuningu
+3. priebežné ukladanie modelov (ich checkpointov), early-stopping
 
 ## Referencie
 [1] [Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu, and Tat-Seng Chua. 2017. Neural Collaborative Filtering. In Proceedings of the 26th International Conference on World Wide Web (WWW '17). International World Wide Web Conferences Steering Committee, Republic and Canton of Geneva, Switzerland, 173-182. DOI: https://doi.org/10.1145/3038912.3052569](https://dl.acm.org/citation.cfm?id=3052569)
